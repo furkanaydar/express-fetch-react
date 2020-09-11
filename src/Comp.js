@@ -6,25 +6,33 @@ import React from 'react';
 import DuoOutlinedIcon from '@material-ui/icons/DuoOutlined';
 import axios from 'axios';
 import FileSaver from 'file-saver';
+import childOptionsMap from './ChildOptionsMap';
 
 class Comp extends React.Component {
     constructor() {
         super();
         this.state = {
-            url: '',
-            id: 0,
+            val1: '',
+            childList: childOptionsMap['Yenidogan'],
+            val2: 0,
             prompt: ''
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.fire = this.fire.bind(this);
-    }
-    handleChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+        this.handleChangeChild = this.handleChangeChild.bind(this);
+        this.handleChangePar = this.handleChangePar.bind(this);
 
+        this.fire = this.fire.bind(this);
+    };
+
+    handleChangePar(event) {
         this.setState({
-            [name]: value
+            val1: event.target.value,
+            childList: childOptionsMap[event.target.value]
+        })
+    };
+
+    handleChangeChild(event) {
+        this.setState({
+            val2: event.target.value
         });
     }
     fire() {
@@ -35,9 +43,13 @@ class Comp extends React.Component {
         /* https://exp-fetch-furkanaydar.herokuapp.com/ */
         console.log(this.state.url);
         let baseUri = 'https://exp-fetch-furkanaydar.herokuapp.com';
+        let page = 'https://stagedoctorstus.com/Video/' + this.state.val1;
+        let vid = this.state.val2;
+
+        console.log(page, vid);
         axios.post(baseUri + '/urls', {
-            page: this.state.url,
-            vid: this.state.id
+            page: page,
+            vid: vid
         })
             .then(function (response) {
                 let videoUri = response.data.response;
@@ -46,13 +58,13 @@ class Comp extends React.Component {
                     self.setState({
                         prompt: 'Dosya bulundu. İndirme bittiğinde indirilenler klasöründe gözükecek.'
                     })
-                    FileSaver.saveAs(videoUri, 'ENESBB.mp4');
+                    FileSaver.saveAs(videoUri, self.state.val1 +'_' + self.state.val2 + '.mp4');
                 }
 
                 else {
                     self.setState({
                         prompt: 'Dosyaya erişim bloklandı. Bir süreliğine başka video dene.'
-                    }) 
+                    })
                 }
 
             })
@@ -64,7 +76,7 @@ class Comp extends React.Component {
     }
     render() {
         return (
-            <div style={{ margin: 0, left: '50%', top: '50%', fontFamily: 'Roboto, serif' }}>
+            <div style={{ margin: 0, marginTop: 60, left: '50%', top: '50%', fontFamily: 'Roboto, serif' }}>
                 <h2 style={{ background: 'yellow', padding: 12, width: 400, margin: 'auto', textAlign: 'center' }}>
                     Video Çalıcı
                     <a style={{ marginLeft: 6, verticalAlign: 'middle' }}>
@@ -73,12 +85,37 @@ class Comp extends React.Component {
                     </a>
                 </h2>
                 <div style={{ marginTop: 32, }}>
-                    <input name='url' value={this.state.url} onChange={this.handleChange} style={{ width: 300, fontSize: 24, border: '1px solid black', height: 40, borderRadius: 20, outline: 'none', padding: 12, }} type="text" placeholder="videonun bulunduğu url?">
-                    </input>
+                    <select value={this.state.val1} onChange={this.handleChangePar}
+                        style={{ letterSpacing:1.2, width: 300, fontSize: 16, border: '1px solid black', borderRadius: 10, outline: 'none', padding: 8, }}
+                        type="text" placeholder="videonun bulunduğu url?">
+                        <option defaultValue="Yenidogan">Yenidoğan</option>
+                        <option value="Onkoloji">Onkoloji</option>
+                        <option value="Endokrinoloji">Endokrinoloji</option>
+                        <option value="Metabolizma">Metabolizma</option>
+                        <option value="Hematoloji">Hematoloji</option>
+                        <option value="Noroloji">Nöroloji</option>
+                        <option value="Romatoloji">Romatoloji</option>
+                        <option value="Nefroloji">Nefroloji</option>
+                        <option value="immunology">İmmünoloji</option>
+                        <option value="Alerji">Alerji</option>
+                        <option value="Gastroentroloji">Gastroenteroloji</option>
+                        <option value="Solunum">Solunum</option>
+                        <option value="Kardiyoloji">Kardiyoloji</option>
+                        <option value="Vitaminler">Vitamin ve Mineraller - Anne sütü ve tamamlayıcı beslenme</option>
+                        <option value="AcilTip">Çocuk Acil, Yoğun Bakım, Zehirlenmeler</option>
+                        <option value="SosyalPediyatri">Sosyal Pediatri</option>
+                        <option value="Dokuntu">Bağışıklama ve Döküntülü hastalıklar</option>
+                        <option value="Büyüme"> Büyüme Gelişme ve Malnutrisyon</option>
+                    </select>
                 </div>
                 <div>
-                    <input name='id' value={this.state.id} onChange={this.handleChange} style={{ marginTop: 32, fontSize: 24, border: '1px solid black', width: 300, height: 40, borderRadius: 20, outline: 'none', padding: 12, }} type="number" placeholder="sayfadaki kaçıncı video?">
-                    </input>
+                    <select style={{ letterSpacing:1.2, marginTop:12, width: 300, fontSize: 16, border: '1px solid black', borderRadius: 10, outline: 'none', padding: 8, }}>
+                        {
+                            this.state.childList.map((child, index) => <option key={index} value={index}>
+                                {child}
+                            </option>)
+                        }
+                    </select>
                 </div>
                 <button onClick={this.fire} style={{ marginTop: 32, padding: 12, fontSize: 18, letterSpacing: 1.8 }}> İndir</button>
 
