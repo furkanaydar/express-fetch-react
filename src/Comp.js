@@ -77,8 +77,8 @@ class Comp extends React.Component {
     render() {
         return (
             <div style={{ margin: 0, marginTop: 60, left: '50%', top: '50%', fontFamily: 'Roboto, serif' }}>
-                <h2 style={{ background: 'yellow', padding: 12, width: 400, margin: 'auto', textAlign: 'center' }}>
-                    Video Çalıcı
+                <h2 style={{ letterSpacing:2, background: 'yellow', padding: 12, width: 400, margin: 'auto', textAlign: 'center' }}>
+                    Ciddi Etüt
                     <a style={{ marginLeft: 6, verticalAlign: 'middle' }}>
                         <DuoOutlinedIcon></DuoOutlinedIcon>
 
@@ -117,7 +117,8 @@ class Comp extends React.Component {
                         }
                     </select>
                 </div>
-                <button onClick={this.fire} style={{ marginTop: 32, padding: 12, fontSize: 18, letterSpacing: 1.8 }}> İndir</button>
+                <button onClick={this.fire} style={{ background:'none', borderRadius:8, marginTop: 32, padding: 8,
+                 paddingLeft:16, paddingRight:16, cursor: 'pointer', fontSize: 18, letterSpacing: 1.8 }}> İndir</button>
 
                 <div style={{ marginTop: 20, fontSize: 14 }}>{this.state.prompt}</div>
             </div>
