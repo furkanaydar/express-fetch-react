@@ -28,7 +28,7 @@ class Comp extends React.Component {
     fire() {
         /* https://exp-fetch-furkanaydar.herokuapp.com/ */
         console.log(this.state.url);
-        let baseUri = 'https://stagedoctorstus.com/Video/Yenidogan';
+        let baseUri = 'https://exp-fetch-furkanaydar.herokuapp.com';
         axios.post(baseUri + '/urls', {
             page: this.state.url,
             vid: this.state.id
