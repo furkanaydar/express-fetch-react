@@ -5,7 +5,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App" style={{verticalAlign:'middle', marginTop: 300}}>
+    <div className="App" style={{position:'relative',   height: 200, margin: 'auto'}}>
       <Comp></Comp>
 
     </div>
