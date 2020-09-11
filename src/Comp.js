@@ -1,3 +1,6 @@
+//TODO get auth key from cookie
+// use axios to get from backend
+
 import React from 'react';
 import DuoOutlinedIcon from '@material-ui/icons/DuoOutlined';
 
